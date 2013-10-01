@@ -63,7 +63,9 @@ class UserAgent
           true
         elsif detect_product('Mobile') || detect_comment('Mobile')
           true
-        elsif os =~ /Android/
+        elsif android?
+          true
+        elsif ios?
           true
         elsif application && application.comment &&
             application.comment.detect { |k, v| k =~ /^IEMobile/ }
@@ -71,6 +73,18 @@ class UserAgent
         else
           false
         end
+      end
+
+      def ios?
+        ['iPad', 'iPhone', 'iPod'].include?(platform)
+      end
+
+      def android?
+        os =~ /Android/
+      end
+
+      def mac_os?
+        ['Macintosh'].include?(platform)
       end
 
       def bot?
